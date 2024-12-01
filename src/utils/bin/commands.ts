@@ -1,6 +1,7 @@
 // List of commands that do not require API calls
 
 import * as bin from './index';
+import * as filesystem from './filesystem';
 import config from '../../../config.json';
 
 // Help
@@ -49,16 +50,21 @@ export const email = async (args: string[]): Promise<string> => {
   return `Opening mailto:${config.email}...`;
 };
 
-export const github = async (args: string[]): Promise<string> => {
-  window.open(`https://github.com/${config.social.github}/`);
-
-  return 'Opening github...';
+export const github = (args: string[]): string => {
+  const message = 'Opening github...';
+  setTimeout(() => {
+    window.open(`https://github.com/${config.social.github}/`);
+  }, 500);
+  return message;
 };
 
 export const linkedin = async (args: string[]): Promise<string> => {
-  window.open(`https://www.linkedin.com/in/${config.social.linkedin}/`);
+  const message = 'Opening linkedin...';
+  setTimeout(() => {
+    window.open(`https://www.linkedin.com/in/${config.social.linkedin}/`);
+  }, 500);
 
-  return 'Opening linkedin...';
+  return message;
 };
 
 // Search
@@ -82,18 +88,6 @@ export const whoami = async (args: string[]): Promise<string> => {
 };
 
 // implement
-export const ls = async (args: string[]): Promise<string> => {
-  return `a
-bunch
-of
-fake
-directories`;
-};
-
-export const cd = async (args: string[]): Promise<string> => {
-  return `unfortunately, i cannot afford more directories.
-if you want to help, you can type 'donate'.`;
-};
 
 export const date = async (args: string[]): Promise<string> => {
   return new Date().toString();

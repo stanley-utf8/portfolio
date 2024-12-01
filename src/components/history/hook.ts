@@ -1,4 +1,5 @@
 import React from 'react';
+import { getCurrentPath } from '../../utils/bin';
 import { History } from './interface';
 
 export const useHistory = (defaultValue: Array<History>) => {
@@ -14,6 +15,14 @@ export const useHistory = (defaultValue: Array<History>) => {
     newestId,
     setHistory: (value: string) => {
       const newId = history.length;
+      const previousEntry = history[history.length - 1];
+
+      // If the current command is 'cd', use the previous path
+      // Otherwise use the current filesystem path
+      const pathToUse = command.startsWith('cd ')
+        ? previousEntry?.path || '/home/guest'
+        : getCurrentPath();
+
       setNewestId(newId);
       setHistory([
         ...history,
@@ -22,9 +31,9 @@ export const useHistory = (defaultValue: Array<History>) => {
           date: new Date(),
           command,
           output: value,
+          path: pathToUse,
         },
       ]);
-      // Reset newestId after animation duration
       setTimeout(() => setNewestId(null), 1600);
     },
     setCommand,

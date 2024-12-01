@@ -13,7 +13,7 @@ export const History: React.FC<{
         <div key={entry.command + entry.id}>
           <div className="flex flex-row space-x-2">
             <div className="flex-shrink">
-              <Ps1 />
+              <Ps1 path={entry.path} />
             </div>
             <div className="flex-grow">{entry.command}</div>
           </div>
