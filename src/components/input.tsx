@@ -17,9 +17,10 @@ export const Input = ({
   triggerEffect,
 }) => {
   const onSubmit = async (event: React.KeyboardEvent<HTMLInputElement>) => {
-    const commands: [string] = history
+    const uniqueCommands = history
       .map(({ command }) => command)
-      .filter((command: string) => command);
+      .filter((command: string) => command)
+      .filter((cmd, index, array) => cmd !== array[index - 1]);
 
     if (event.key === 'c' && event.ctrlKey) {
       event.preventDefault();
@@ -48,25 +49,25 @@ export const Input = ({
 
     if (event.key === 'ArrowUp') {
       event.preventDefault();
-      if (!commands.length) {
+      if (!uniqueCommands.length) {
         return;
       }
       const index: number = lastCommandIndex + 1;
-      if (index <= commands.length) {
+      if (index <= uniqueCommands.length) {
         setLastCommandIndex(index);
-        setCommand(commands[commands.length - index]);
+        setCommand(uniqueCommands[uniqueCommands.length - index]);
       }
     }
 
     if (event.key === 'ArrowDown') {
       event.preventDefault();
-      if (!commands.length) {
+      if (!uniqueCommands.length) {
         return;
       }
       const index: number = lastCommandIndex - 1;
       if (index > 0) {
         setLastCommandIndex(index);
-        setCommand(commands[commands.length - index]);
+        setCommand(uniqueCommands[uniqueCommands.length - index]);
       } else {
         setLastCommandIndex(0);
         setCommand('');

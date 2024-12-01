@@ -6,27 +6,58 @@ import config from '../../../config.json';
 
 // Help
 export const help = async (args: string[]): Promise<string> => {
-  const commands = Object.keys(bin).sort().join(', ');
-  var c = '';
-  for (let i = 1; i <= Object.keys(bin).sort().length; i++) {
-    if (i % 7 === 0) {
-      c += Object.keys(bin).sort()[i - 1] + '\n';
-    } else {
-      c += Object.keys(bin).sort()[i - 1] + ' ';
-    }
-  }
-  return `Welcome! Here are all the available commands:
-\n${c}\n
-[tab]: trigger completion.
-[ctrl+l]/clear: clear terminal.\n
-Type 'sumfetch' to display summary.
-`;
-};
+  const commandMap = {
+    // Navigation & Info
+    about: 'display information about me',
+    help: 'show this help message',
+    resume: 'open my resume',
+    projects: 'show my most recent projects',
+    work: 'show my field experience',
 
-// Redirection
-export const repo = async (args: string[]): Promise<string> => {
-  window.open(`${config.repo}`);
-  return 'Opening Github repository...';
+    // Contact & Social
+    email: 'send me an email',
+    github: 'visit my github profile',
+    linkedin: 'view my linkedin profile',
+
+    // Search
+    google: 'search google',
+    reddit: 'search reddit',
+
+    // Utils
+    date: 'display current date',
+    echo: 'print text to terminal',
+    whoami: 'display current user',
+  };
+
+  const sections = {
+    'Navigation & Info': [
+      'about',
+      'help',
+      'resume',
+      'projects',
+      'work',
+      'school',
+    ],
+    'Contact & Social': ['email', 'github', 'linkedin'],
+    Utils: ['date', 'echo', 'whoami'],
+  };
+
+  let helpText = 'Available commands:\n\n';
+
+  Object.entries(sections).forEach(([section, commands]) => {
+    commands.forEach((cmd) => {
+      helpText += `  <span class="text-light-yellow dark:text-dark-red">${cmd}</span>${' '.repeat(
+        15 - cmd.length,
+      )} - ${commandMap[cmd]}\n`;
+    });
+    helpText += '\n';
+  });
+
+  return `${helpText}
+[tab]: trigger completion
+[ctrl+l]/clear: clear terminal\n
+
+Type 'sumfetch' to display summary.`;
 };
 
 // About
@@ -39,15 +70,21 @@ More about me:
 'readme' - my github readme.`;
 };
 
-export const resume = async (args: string[]): Promise<string> => {
-  window.open(`${config.resume_url}`);
-  return 'Opening resume...';
+export const resume = (args: string[]): string => {
+  const message = 'Opening resume...';
+  setTimeout(() => {
+    window.open(`${config.resume_url}`);
+  }, 500);
+  return message;
 };
 
 // Contact
-export const email = async (args: string[]): Promise<string> => {
-  window.open(`mailto:${config.email}`);
-  return `Opening mailto:${config.email}...`;
+export const email = (args: string[]): string => {
+  const message = `Opening mailto:${config.email}...`;
+  setTimeout(() => {
+    window.open(`mailto:${config.email}`);
+  }, 500);
+  return message;
 };
 
 export const github = (args: string[]): string => {
@@ -68,14 +105,20 @@ export const linkedin = async (args: string[]): Promise<string> => {
 };
 
 // Search
-export const google = async (args: string[]): Promise<string> => {
-  window.open(`https://google.com/search?q=${args.join(' ')}`);
-  return `Searching google for ${args.join(' ')}...`;
+export const google = (args: string[]): string => {
+  const message = `Searching google for ${args.join(' ')}...`;
+  setTimeout(() => {
+    window.open(`https://google.com/search?q=${args.join(' ')}`);
+  }, 500);
+  return message;
 };
 
-export const reddit = async (args: string[]): Promise<string> => {
-  window.open(`https://www.reddit.com/search/?q=${args.join(' ')}`);
-  return `Searching reddit for ${args.join(' ')}...`;
+export const reddit = (args: string[]): string => {
+  const message = `Searching reddit for ${args.join(' ')}...`;
+  setTimeout(() => {
+    window.open(`https://www.reddit.com/search/?q=${args.join(' ')}`);
+  }, 500);
+  return message;
 };
 
 // Typical linux commands
@@ -90,7 +133,14 @@ export const whoami = async (args: string[]): Promise<string> => {
 // implement
 
 export const date = async (args: string[]): Promise<string> => {
-  return new Date().toString();
+  const date = new Date();
+  return date
+    .toLocaleDateString('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
+    })
+    .replace(/\//g, '.');
 };
 
 // Banner
@@ -100,4 +150,23 @@ Type 'help' to see the list of available commands.
 Type 'sumfetch' to display summary.
 Type 'repo' or click <u><a class="text-light-blue dark:text-dark-blue underline" href="${config.repo}" target="_blank">here</a></u> for the Github repository.\n
 `;
+};
+
+export const mkdir = async (args: string[]): Promise<string> => {
+  if (!args.length) return 'mkdir: missing operand';
+  return `mkdir: cannot create directory '${args[0]}': Permission denied`;
+};
+
+export const rm = async (args: string[]): Promise<string> => {
+  if (!args.length) return 'rm: missing operand';
+  return `rm: cannot remove '${args[0]}': Permission denied`;
+};
+
+export const touch = async (args: string[]): Promise<string> => {
+  if (!args.length) return 'touch: missing operand';
+  return `touch: cannot touch '${args[0]}': Permission denied`;
+};
+
+export const sudo = async (args: string[]): Promise<string> => {
+  return 'hah! nice try';
 };

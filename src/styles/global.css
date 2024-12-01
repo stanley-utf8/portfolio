@@ -41,7 +41,7 @@ div#__next > div {
   background: #ff8037;
 }
 
-/* CRT effect wrapper - add to your main container */
+/* CRT effect wrapper */
 .crt-text-effect {
   animation: textShadow 1.6s infinite;
   position: relative;
