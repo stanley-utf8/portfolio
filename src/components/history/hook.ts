@@ -7,6 +7,7 @@ export const useHistory = (defaultValue: Array<History>) => {
   const [command, setCommand] = React.useState<string>('');
   const [lastCommandIndex, setLastCommandIndex] = React.useState<number>(0);
   const [newestId, setNewestId] = React.useState<number | null>(null);
+  const [lastKnownPath, setLastKnownPath] = React.useState(getCurrentPath());
 
   return {
     history,
@@ -15,13 +16,12 @@ export const useHistory = (defaultValue: Array<History>) => {
     newestId,
     setHistory: (value: string) => {
       const newId = history.length;
-      const previousEntry = history[history.length - 1];
+      const currentPath = getCurrentPath();
 
-      // If the current command is 'cd', use the previous path
-      // Otherwise use the current filesystem path
-      const pathToUse = command.startsWith('cd ')
-        ? previousEntry?.path || '/home/guest'
-        : getCurrentPath();
+      // Update our last known path if this is a cd command
+      if (command.startsWith('cd ')) {
+        setLastKnownPath(currentPath);
+      }
 
       setNewestId(newId);
       setHistory([
@@ -31,7 +31,7 @@ export const useHistory = (defaultValue: Array<History>) => {
           date: new Date(),
           command,
           output: value,
-          path: pathToUse,
+          path: lastKnownPath,
         },
       ]);
       setTimeout(() => setNewestId(null), 1600);
@@ -41,6 +41,7 @@ export const useHistory = (defaultValue: Array<History>) => {
     clearHistory: () => {
       setHistory([]);
       setNewestId(null);
+      setLastKnownPath(getCurrentPath());
     },
   };
 };

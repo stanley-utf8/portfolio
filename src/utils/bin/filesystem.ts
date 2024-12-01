@@ -39,6 +39,18 @@ let fileSystem: FileSystemNode = {
                 },
               },
             },
+            test: {
+              name: 'test',
+              type: 'directory',
+              children: {
+                'readme.md': {
+                  name: 'readme.md',
+                  type: 'file',
+                  content:
+                    '# My Projects\nThis directory contains all my project files.',
+                },
+              },
+            },
           },
         },
       },
@@ -199,15 +211,15 @@ export const tree = async (args: string[]): Promise<string> => {
         '\n';
     } else {
       // Start with a vertical line for root
-      result = '    .' + (node.type === 'directory' ? '/' : '') + '\n';
+      result = ' .' + (node.type === 'directory' ? '' : '') + '\n';
     }
 
     if (node.type === 'directory' && node.children) {
       const entries = Object.entries(node.children);
       entries.forEach(([_, child], index) => {
         const isLastChild = index === entries.length - 1;
-        // For children of root, start with proper indentation
-        const newPrefix = prefix ? prefix + (isLast ? '    ' : '│   ') : '    ';
+        // Children start with standard indentation
+        const newPrefix = prefix ? prefix + (isLast ? '    ' : '│   ') : ' ';
         result += buildTree(child, newPrefix, isLastChild);
       });
     }

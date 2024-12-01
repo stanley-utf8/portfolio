@@ -20,7 +20,7 @@ export const Ps1: React.FC<Props> = ({ path }) => {
         {config.ps1_hostname}
       </span>
       <span className="text-light-gray dark:text-dark-gray">
-        :$ {displayPath}
+        : {displayPath} $
       </span>
     </div>
   );
