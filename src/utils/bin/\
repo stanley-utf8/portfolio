@@ -1,0 +1,222 @@
+// List of commands that do not require API calls
+
+import * as bin from './index';
+import * as filesystem from './filesystem';
+import config from '../../../config.json';
+import symbol1 from '../../../public/work images/symbol-1.svg';
+
+// Help
+export const help = async (args: string[]): Promise<string> => {
+  const commandMap = {
+    // Navigation & Info
+    about: 'display information about me',
+    help: 'show this help message',
+    resume: 'open my resume',
+    projects: 'show my most recent projects',
+    work: 'show my field experience',
+
+    // Contact & Social
+    email: 'send me an email',
+    github: 'visit my github profile',
+    linkedin: 'view my linkedin profile',
+
+    // Search
+    google: 'search google',
+    reddit: 'search reddit',
+
+    // Utils
+    date: 'display current date',
+    echo: 'print text to terminal',
+    whoami: 'display current user',
+  };
+
+  const sections = {
+    'Navigation & Info': [
+      'about',
+      'help',
+      'resume',
+      'projects',
+      'work',
+      'school',
+    ],
+    'Contact & Social': ['email', 'github', 'linkedin'],
+    Utils: ['date', 'echo', 'whoami'],
+  };
+
+  let helpText = 'Available commands:\n\n';
+
+  Object.entries(sections).forEach(([section, commands]) => {
+    commands.forEach((cmd) => {
+      helpText += `  <span class="text-light-yellow dark:text-dark-red">${cmd}</span>${' '.repeat(
+        15 - cmd.length,
+      )} - ${commandMap[cmd]}\n`;
+    });
+    helpText += '\n';
+  });
+
+  return `${helpText}
+[tab]: trigger completion
+[ctrl+l]/clear: clear terminal\n
+
+Type 'sumfetch' to display summary.`;
+};
+
+// About
+export const about = async (args: string[]): Promise<string> => {
+  return `Hi, I am ${config.name}. 
+Welcome to my website!
+More about me:
+'sumfetch' - short summary.
+'resume' - my latest resume.
+'readme' - my github readme.`;
+};
+
+export const resume = (args: string[]): string => {
+  const message = 'Opening resume...';
+  setTimeout(() => {
+    window.open(`${config.resume_url}`);
+  }, 500);
+  return message;
+};
+
+// Contact
+export const email = (args: string[]): string => {
+  const message = `Opening mailto:${config.email}...`;
+  setTimeout(() => {
+    window.open(`mailto:${config.email}`);
+  }, 500);
+  return message;
+};
+
+export const github = (args: string[]): string => {
+  const message = 'Opening github...';
+  setTimeout(() => {
+    window.open(`https://github.com/${config.social.github}/`);
+  }, 500);
+  return message;
+};
+
+export const linkedin = async (args: string[]): Promise<string> => {
+  const message = 'Opening linkedin...';
+  setTimeout(() => {
+    window.open(`https://www.linkedin.com/in/${config.social.linkedin}/`);
+  }, 500);
+
+  return message;
+};
+
+// Search
+export const google = (args: string[]): string => {
+  const message = `Searching google for ${args.join(' ')}...`;
+  setTimeout(() => {
+    window.open(`https://google.com/search?q=${args.join(' ')}`);
+  }, 500);
+  return message;
+};
+
+export const reddit = (args: string[]): string => {
+  const message = `Searching reddit for ${args.join(' ')}...`;
+  setTimeout(() => {
+    window.open(`https://www.reddit.com/search/?q=${args.join(' ')}`);
+  }, 500);
+  return message;
+};
+
+// Typical linux commands
+export const echo = async (args: string[]): Promise<string> => {
+  return args.join(' ');
+};
+
+export const whoami = async (args: string[]): Promise<string> => {
+  return `${config.ps1_username}`;
+};
+
+// implement
+
+export const date = async (args: string[]): Promise<string> => {
+  const date = new Date();
+  return date
+    .toLocaleDateString('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
+    })
+    .replace(/\//g, '.');
+};
+
+// Banner
+export const banner = (args?: string[]): string => {
+  return `
+Type 'help' to see the list of available commands.
+Type 'sumfetch' to display summary.
+Type 'repo' or click <u><a class="text-light-blue dark:text-dark-blue underline" href="${config.repo}" target="_blank">here</a></u> for the Github repository.\n
+`;
+};
+
+export const mkdir = async (args: string[]): Promise<string> => {
+  if (!args.length) return 'mkdir: missing operand';
+  return `mkdir: cannot create directory '${args[0]}': Permission denied`;
+};
+
+export const rm = async (args: string[]): Promise<string> => {
+  if (!args.length) return 'rm: missing operand';
+  return `rm: cannot remove '${args[0]}': Permission denied`;
+};
+
+export const touch = async (args: string[]): Promise<string> => {
+  if (!args.length) return 'touch: missing operand';
+  return `touch: cannot touch '${args[0]}': Permission denied`;
+};
+
+export const sudo = async (args: string[]): Promise<string> => {
+  return 'hah! nice try';
+};
+
+export const work = async (args: string[]): Promise<string> => {
+  return `
+┌──────────────────────────────────────────────────────────────┐
+│                      Work Experience                         │
+└──────────────────────────────────────────────────────────────┘
+  │
+
+ <span class="text-light-yellow dark:text-dark-yellow">2025</span>
+
+  │
+  ├─ <svg xmlns="http://www.w3.org/2000/svg" viewBox="100 50 280 200" style="height: 1.3vh; display:inline-block;vertical-align: middle;" fill="white">
+  │   <path d="M130.299 222.384L278.52 130.269H355.413C357.785 130.269 359.902 132.159 359.902 134.755C359.902 136.871 358.971 137.83 357.785 138.535L284.959 182.124C280.215 184.974 278.577 190.645 278.577 194.877L278.492 222.356H371V62.6708C371 59.5956 368.628 57 365.098 57H276.854L129 148.692V222.356H130.299V222.384Z"></path>
+  │   </svg> Autodesk | Software Engineering Intern 
+  │     <i>May - August</i>
+  │
+  │   • Upcoming summer internship
+  │
+  │
+  ├─ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" style="height: 1.2em; display:inline-block;vertical-align: middle;" fill="white">
+  │        <path d="M117.81,67.43c7.38-4.15,17.54-8.77,20.77-23.54,3.23-14.77-6.46-29.08-26.77-29.08H31.5L9.81,137.59H84.58c22.62,0,42.92-9.69,47.54-34.62,4.15-19.39-7.38-32.31-14.31-35.54Zm-13.39,3.23c-12.78,14.56-48.46,60.46-48.46,60.46-.92,.92-1.85,.92-2.77,.46-.46-.46-.92-1.38-.46-2.31l14.31-47.54h-24c-1.52-.04-2.51-2.05-1.38-3.23L89.2,19.43c.92-.92,1.85-.92,2.77-.46,.46,.92,.92,1.85,.46,2.77l-13.85,45.69h24c3.47,0,3.04,1.87,1.85,3.23Z"/>
+  │        </svg> BETA Technologies | Software Engineering Intern 
+  │     <i>January - April</i>
+  │
+  │   • Structures Team Member
+  │
+
+ <span class="text-light-yellow dark:text-dark-yellow">2024</span>
+
+  │
+  ├─ McGill AI Ethics Lab | Lead Undergraduate Researcher 
+  │
+  │   • Led a team of eight developing solutions for filter bubbles and disinformation
+  │   • Created Golang API library with C wrappers for Python integration
+  │   • Leveraged multi-thread optimization, improving performance by 70%
+  │   • Developed video content analyzer using TextRank algorithm
+  │ 
+
+ <span class="text-light-yellow dark:text-dark-yellow">2022</span>
+
+  │ 
+  ├─ M2M Tech | Software Engineer Intern (September - January 2023)
+  │ 
+  │   • Co-engineered Market Sentiment Analysis tool with LSTM and NLP
+  │   • Developed A* pathfinding algorithm with Manhattan distance heuristic
+  │   • Reduced path length by 20% and improved convergence speed by 15%
+  │   • Collaborated with scrum coordinators on weekly progress report
+\n`;
+};
