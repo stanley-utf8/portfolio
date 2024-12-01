@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');*/
+@font-face {
+  font-family: 'Hack';
+  src: url(/assets/fonts/Hack-NF.ttf);
+  display: swap;
+}
+
+* {
+  font-family: 'Hack', monospace;
+}
+
+html,
+body,
+body > div:first-child,
+div#__next,
+div#__next > div {
+  height: 100%;
+  overflow: auto;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e252e;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ebdbb2;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff8037;
+}
+
+/* CRT effect wrapper - add to your main container */
+.crt-text-effect {
+  animation: textShadow 1.6s infinite;
+  position: relative;
+}
+
+/* Scanlines overlay */
+.crt-effect::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Screen flicker animation */
+@keyframes textShadow {
+  0% {
+    text-shadow: none;
+  }
+  5% {
+    text-shadow: 0.4389924193300864px 0 1px rgba(0, 30, 255, 0.5),
+      -0.4389924193300864px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+  }
+  10% {
+    text-shadow: 2.7928974010788217px 0 1px rgba(0, 30, 255, 0.5),
+      -2.7928974010788217px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+  }
+  50% {
+    text-shadow: 0.4389924193300864px 0 1px rgba(0, 30, 255, 0.5),
+      -0.4389924193300864px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+  }
+  100% {
+    text-shadow: none;
+  }
+}
+
+/* CRT glow effect */
+.crt-glow {
+  position: relative;
+}
+
+.crt-glow::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at center,
+    rgba(30, 255, 0, 0.05) 0%,
+    rgba(30, 255, 0, 0.03) 5%,
+    /*rgba(30, 255, 0, 0.005) 60%,*/ rgba(0, 0, 0, 0.03) 70%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+  pointer-events: none;
+  z-index: 9;
+  filter: blur(30px);
+}
