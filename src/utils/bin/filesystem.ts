@@ -9,12 +9,12 @@ let fileSystem: FileSystemNode = {
   name: '/',
   type: 'directory',
   children: {
-    home: {
-      name: 'home',
+    dev: {
+      name: 'dev',
       type: 'directory',
       children: {
-        guest: {
-          name: 'guest',
+        stanley: {
+          name: 'stanley',
           type: 'directory',
           children: {
             'about.txt': {
@@ -58,7 +58,7 @@ let fileSystem: FileSystemNode = {
   },
 };
 
-let currentPath: string[] = ['/', 'home', 'guest'];
+let currentPath: string[] = ['/', 'dev', 'stanley'];
 
 export const getCurrentPath = () => {
   return currentPath.join('/').replace('//', '/');
@@ -108,7 +108,7 @@ export const pwd = async (args: string[]): Promise<string> => {
 
 export const cd = async (args: string[]): Promise<string> => {
   if (args.length === 0) {
-    currentPath = ['/', 'home', 'guest'];
+    currentPath = ['/', 'dev', 'stanley'];
     return '';
   }
 

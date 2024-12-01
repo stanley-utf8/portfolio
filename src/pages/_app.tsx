@@ -6,6 +6,17 @@ const App = ({ Component, pageProps }) => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [showEffect, setShowEffect] = React.useState(false);
 
+  const [isBooting, setIsBooting] = React.useState(true);
+
+  React.useEffect(() => {
+    // Only need one state change after boot sequence
+    const bootTimeout = setTimeout(() => {
+      setIsBooting(false);
+    }, 1500);
+
+    return () => clearTimeout(bootTimeout);
+  }, []);
+
   const onClickAnywhere = () => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -29,7 +40,9 @@ const App = ({ Component, pageProps }) => {
       </Head>
 
       <div
-        className={` crt-text crt-effect crt-glow crt-curvature text-light-foreground dark:text-dark-foreground min-w-max text-xs md:min-w-full md:text-s`}
+        className={` crt-text crt-effect 
+          ${isBooting ? 'crt-boot-sequence' : 'crt-glow'}
+          crt-curvature text-light-foreground dark:text-dark-foreground min-w-max text-xs md:min-w-full md:text-s`}
         onClick={onClickAnywhere}
       >
         <main className="bg-light-background dark:bg-dark-background w-full h-full p-2">

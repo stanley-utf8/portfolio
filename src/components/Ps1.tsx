@@ -11,7 +11,7 @@ const hostnameCache: { value: string | null } = { value: null }; // Persistent
 export const Ps1: React.FC<Props> = ({ path }) => {
   const currentPath = path || getCurrentPath();
   const currentDir = currentPath.split('/').pop() || '~';
-  const displayPath = currentDir === 'guest' ? '~' : currentDir;
+  const displayPath = currentDir === 'stanley' ? '~' : currentDir;
 
   const [hostname, setHostname] = useState<string>(() => {
     if (!hostnameCache.value) {
