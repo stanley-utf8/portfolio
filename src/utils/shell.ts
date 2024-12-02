@@ -17,9 +17,13 @@ export const shell = async (
     const targetPath = resolvePath(cmd.slice(2));
     const node = getNodeAtPath(targetPath);
 
-    if (node?.isExecutable && node.name === 'waves.exe') {
-      setShowWaves(true);
-      setHistory('Running waves.exe...');
+    if (node?.isExecutable) {
+      setHistory(`Running ${node.name}...`);
+      if (node.name === 'waves.exe') {
+        setTimeout(() => {
+          setShowWaves(true);
+        }, 500);
+      }
       setCommand('');
       return;
     }

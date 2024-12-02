@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 const FullScreenWaves = ({ onComplete }) => {
   const [frame, setFrame] = useState('');
   const CHARS = ' _abcöõö#$%123ABC';
-  const WIDTH = 120; // Increased for full screen
-  const HEIGHT = 40; // Increased for full screen
+  const WIDTH = 190; // Increased for full screen
+  const HEIGHT = 50; // Increased for full screen
 
   const getIntensity = (row: number, col: number, time: number) => {
     let intensity = 0.0;
@@ -79,9 +79,9 @@ const FullScreenWaves = ({ onComplete }) => {
   return (
     <div className="fixed inset-0 bg-light-background dark:bg-dark-background z-50 flex items-center justify-center">
       <pre className="font-mono whitespace-pre text-dark-green text-xs overflow-hidden">
-        {frame}
+        <div className="-translate-y-3">{frame}</div>
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-dark-gray">
-          Press any key to continue...
+          Press space to continue...
         </div>
       </pre>
     </div>

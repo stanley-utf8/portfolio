@@ -171,7 +171,7 @@ div#__next > div {
     rgba(0, 0, 0, 0.07) 100%
   );
   pointer-events: none;
-  z-index: 9;
+  z-index: 51;
   filter: blur(5px);
 }
 
