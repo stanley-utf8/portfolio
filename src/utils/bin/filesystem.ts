@@ -3,6 +3,7 @@ type FileSystemNode = {
   type: 'file' | 'directory';
   content?: string;
   children?: { [key: string]: FileSystemNode };
+  isExecutable?: boolean;
 };
 
 let fileSystem: FileSystemNode = {
@@ -17,6 +18,17 @@ let fileSystem: FileSystemNode = {
           name: 'stanley',
           type: 'directory',
           children: {
+            executables: {
+              name: 'executables',
+              type: 'directory',
+              children: {
+                'waves.exe': {
+                  name: 'waves.exe',
+                  type: 'file',
+                  isExecutable: true,
+                },
+              },
+            },
             'about.txt': {
               name: 'about.txt',
               type: 'file',

@@ -7,6 +7,8 @@ import { History } from '../components/history/History';
 import { banner } from '../utils/bin';
 import { triggerAsyncId } from 'async_hooks';
 import BootSequence from '../components/boot';
+import FullScreenWaves from '../components/waves';
+import { handleClientScriptLoad } from 'next/script';
 
 interface IndexPageProps {
   inputRef: React.MutableRefObject<HTMLInputElement>;
@@ -21,6 +23,7 @@ const IndexPage: React.FC<IndexPageProps> = ({
 }) => {
   const containerRef = React.useRef(null);
   const [isBooting, setIsBooting] = React.useState(true);
+  const [showWaves, setShowWaves] = React.useState(false);
   const {
     history,
     command,
@@ -47,6 +50,10 @@ const IndexPage: React.FC<IndexPageProps> = ({
     }
   }, [history]);
 
+  const handleWavesComplete = React.useCallback(() => {
+    setShowWaves(false);
+  }, []);
+
   if (isBooting) {
     return (
       <div className="p-2 overflow-hidden h-full rounded border-light-yellow dark:border-dark-yellow">
@@ -56,6 +63,7 @@ const IndexPage: React.FC<IndexPageProps> = ({
   }
   return (
     <>
+      {showWaves && <FullScreenWaves onComplete={handleWavesComplete} />}
       <Head>
         <title>{config.title}</title>
       </Head>
@@ -78,6 +86,7 @@ const IndexPage: React.FC<IndexPageProps> = ({
             setLastCommandIndex={setLastCommandIndex}
             clearHistory={clearHistory}
             triggerEffect={triggerEffect}
+            setShowWaves={setShowWaves}
           />
         </div>
       </div>

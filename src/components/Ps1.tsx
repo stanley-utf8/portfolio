@@ -22,11 +22,13 @@ export const Ps1: React.FC<Props> = ({ path }) => {
 
   return (
     <div>
-      <span className="text-light-yellow dark:text-dark-yellow">
+      <span className="text-light-yellow dark:text-dark-blue">
         {config.ps1_username}
       </span>
       <span className="text-light-gray dark:text-dark-gray">@</span>
-      <span className="text-light-green dark:text-dark-green">{hostname}:</span>
+      <span className="text-light-green dark:text-dark-purple">
+        {hostname}:
+      </span>
       <span className="text-light-gray dark:text-dark-gray">
         {' '}
         {displayPath} $

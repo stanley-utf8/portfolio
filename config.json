@@ -8,7 +8,7 @@
     "linkedin": "stanley-utf8"
   },
   "email": "stanley.wang.cs@gmail.com",
-  "ps1_hostname": "relay",
+  "ps1_hostname": "portfolio",
   "ps1_username": "visitor",
   "repo": "https://github.com/Cveinnt/LiveTerm",
   "resume_url": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Resume.pdf",
@@ -29,11 +29,12 @@
     "dark": {
       "background": "#100F0F",
       "foreground": "#E5E9F0",
-      "yellow": "#5E81AC",
-      "green": "#A3BE8C",
-      "gray": "#88C0D0",
-      "blue": "#EBCB8B",
-      "red": "#BF616A"
+      "yellow": "#EBCB8B",
+      "green": "#a6e3a1",
+      "gray": "#cdd6f4",
+      "blue": "#89b4fa",
+      "red": "#BF616A",
+      "purple": "#cba6f7"
     }
   }
 }

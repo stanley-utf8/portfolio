@@ -172,6 +172,12 @@ export const sudo = async (args: string[]): Promise<string> => {
   return 'hah! nice try';
 };
 
+// Extra stuff
+
+export const waves = async (args: string[]): Promise<string> => {
+  return '<waves>';
+};
+
 export const work = async (args: string[]): Promise<string> => {
   return `
 ┌──────────────────────────────────────────────────────────────┐

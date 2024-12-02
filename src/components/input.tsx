@@ -15,6 +15,7 @@ export const Input = ({
   setLastCommandIndex,
   clearHistory,
   triggerEffect,
+  setShowWaves,
 }) => {
   const onSubmit = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     const uniqueCommands = history
@@ -43,7 +44,7 @@ export const Input = ({
       event.preventDefault();
       setLastCommandIndex(0);
       triggerEffect();
-      await shell(command, setHistory, clearHistory, setCommand);
+      await shell(command, setHistory, clearHistory, setCommand, setShowWaves);
       containerRef.current.scrollTo(0, containerRef.current.scrollHeight);
     }
 
@@ -91,10 +92,11 @@ export const Input = ({
         ref={inputRef}
         id="prompt"
         type="text"
-        className={`bg-light-background dark:bg-dark-background focus:outline-none flex-grow ${commandExists(command) || command === ''
+        className={`bg-light-background dark:bg-dark-background focus:outline-none flex-grow ${
+          commandExists(command) || command === ''
             ? 'text-dark-green'
             : 'text-dark-red'
-          }`}
+        }`}
         value={command}
         onChange={onChange}
         autoFocus

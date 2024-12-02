@@ -1,15 +1,39 @@
 import React from 'react';
 import * as bin from './bin';
+import { getCurrentPath, getNodeAtPath, resolvePath } from './bin/filesystem';
 
 export const shell = async (
   command: string,
   setHistory: (value: string) => void,
   clearHistory: () => void,
   setCommand: React.Dispatch<React.SetStateAction<string>>,
+  setShowWaves: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
   const args = command.split(' ');
-  args[0] = args[0].toLowerCase();
+  const cmd = args[0].toLowerCase();
 
+  if (cmd.startsWith('./')) {
+    const path = getCurrentPath();
+    const targetPath = resolvePath(cmd.slice(2));
+    const node = getNodeAtPath(targetPath);
+
+    if (node?.isExecutable && node.name === 'waves.exe') {
+      setShowWaves(true);
+      setHistory('Running waves.exe...');
+      setCommand('');
+      return;
+    }
+
+    setHistory(`${cmd}: Permission denied or not an executable`);
+    setCommand('');
+    return;
+  }
+
+  if (command === 'waves') {
+    setShowWaves(true);
+    setCommand('');
+    return;
+  }
   if (args[0] === 'clear') {
     clearHistory();
   } else if (command === '') {

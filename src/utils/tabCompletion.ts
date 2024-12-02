@@ -7,6 +7,23 @@ export const handleTabCompletion = (
   const parts = command.split(' ');
   const firstWord = parts[0];
 
+  if (firstWord.startsWith('./')) {
+    const currentPath = getCurrentPath();
+    const partial = firstWord.slice(2);
+
+    const currentNode = getNodeAtPath(resolvePath(currentPath));
+    if (!currentNode || !currentNode.children) return;
+
+    const possibilities = Object.keys(currentNode.children).filter(
+      (name) =>
+        name.startsWith(partial) && currentNode.children[name].isExecutable,
+    );
+
+    if (possibilities.length === 1) {
+      setCommand(`./${possibilities[0]}`);
+    }
+    return;
+  }
   if (parts.length === 1) {
     const commands = Object.keys(bin).filter((entry) =>
       entry.startsWith(command),
