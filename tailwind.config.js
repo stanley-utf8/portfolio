@@ -22,4 +22,11 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  safelist: [
+    'text-dark-yellow',
+    'text-dark-green',
+    'text-dark-blue',
+    'text-dark-red',
+    'text-dark-purple',
+  ],
 };

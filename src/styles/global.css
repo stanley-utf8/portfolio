@@ -67,7 +67,7 @@ div#__next > div {
     transparent 4px
   );
   pointer-events: none;
-  z-index: 10;
+  z-index: 51;
 }
 
 /* Screen flicker animation */

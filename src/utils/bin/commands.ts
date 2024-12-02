@@ -4,6 +4,7 @@ import * as bin from './index';
 import * as filesystem from './filesystem';
 import config from '../../../config.json';
 import symbol1 from '../../../public/work images/symbol-1.svg';
+import { workOutput, workExperience } from '../../components/work';
 
 // Help
 export const help = async (args: string[]): Promise<string> => {
@@ -172,49 +173,98 @@ export const sudo = async (args: string[]): Promise<string> => {
   return 'hah! nice try';
 };
 
+export const expand = async (args: string[]): Promise<string> => {
+  if (!args.length) {
+    return 'Usage: expand <company-id> (e.g., expand autodesk)';
+  }
+
+  const targetId = args[0].toLowerCase();
+  let found = false;
+
+  workExperience.forEach((entry) => {
+    entry.jobs.forEach((job) => {
+      if (job.id === targetId) {
+        job.expanded = true;
+        found = true;
+      }
+    });
+  });
+
+  if (!found) {
+    return `Company "${targetId}" not found. Available options: autodesk, beta, mcgill`;
+  }
+
+  return 'Case study expanded. Type "work" to see the updated view.';
+};
+
+export const collapse = async (args: string[]): Promise<string> => {
+  if (!args.length) {
+    return 'Usage: collapse <company-id> (e.g., collapse autodesk)';
+  }
+
+  const targetId = args[0].toLowerCase();
+  let found = false;
+
+  workExperience.forEach((entry) => {
+    entry.jobs.forEach((job) => {
+      if (job.id === targetId) {
+        job.expanded = false;
+        found = true;
+      }
+    });
+  });
+
+  if (!found) {
+    return `Company "${targetId}" not found. Available options: autodesk, beta, mcgill`;
+  }
+
+  return 'Case study collapsed. Type "work" to see the updated view.';
+};
+
 export const work = async (args: string[]): Promise<string> => {
-  return `
-┌──────────────────────────────────────────────────────────────┐
-│                      Work Experience                         │
-└──────────────────────────────────────────────────────────────┘
-  │
-
- <span class="text-light-yellow dark:text-dark-yellow">2025</span>
-
-  │
-  ├─ <svg xmlns="http://www.w3.org/2000/svg" viewBox="100 50 280 200" style="height: 1.3vh; display:inline-block;vertical-align: middle;" fill="white">
-  │   <path d="M130.299 222.384L278.52 130.269H355.413C357.785 130.269 359.902 132.159 359.902 134.755C359.902 136.871 358.971 137.83 357.785 138.535L284.959 182.124C280.215 184.974 278.577 190.645 278.577 194.877L278.492 222.356H371V62.6708C371 59.5956 368.628 57 365.098 57H276.854L129 148.692V222.356H130.299V222.384Z"></path>
-  │   </svg> <a href="https://www.autodesk.com" target="_blank">Autodesk</a> | Software Engineering Intern | <i>May - August</i>
-  │
-  │   • Incoming Autodesk EMS Team
-  │
-  │
-  ├─ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" style="height: 1.2em; display:inline-block;vertical-align: middle;" fill="white">
-  │        <path d="M117.81,67.43c7.38-4.15,17.54-8.77,20.77-23.54,3.23-14.77-6.46-29.08-26.77-29.08H31.5L9.81,137.59H84.58c22.62,0,42.92-9.69,47.54-34.62,4.15-19.39-7.38-32.31-14.31-35.54Zm-13.39,3.23c-12.78,14.56-48.46,60.46-48.46,60.46-.92,.92-1.85,.92-2.77,.46-.46-.46-.92-1.38-.46-2.31l14.31-47.54h-24c-1.52-.04-2.51-2.05-1.38-3.23L89.2,19.43c.92-.92,1.85-.92,2.77-.46,.46,.92,.92,1.85,.46,2.77l-13.85,45.69h24c3.47,0,3.04,1.87,1.85,3.23Z"/>
-  │        </svg> <a href="https://www.beta.team" target="_blank" style="text-decoration: underline">BETA Technologies</a> | Software Engineering Intern | <i>January - April</i>
-  │
-  │   • Incoming Structures Team
-  │
-
- <span class="text-light-yellow dark:text-dark-yellow">2024</span>
-
-  │
-  ├─ McGill AI Ethics Lab | <b class="text-dark-green">Lead Undergraduate Researcher</b> | <i>April - Present</i>
-  │
-  │   • Led a team of eight developing solutions for filter bubbles and disinformation
-  │   • Created Golang API library with C wrappers for Python integration
-  │   • Leveraged multi-thread optimization, improving performance by 70%
-  │   • Developed video content analyzer using TextRank algorithm
-  │ 
-
- <span class="text-light-yellow dark:text-dark-yellow">2022</span>
-
-  │ 
-  ├─ M2M Tech | Software Engineer Intern (September - January 2023)
-  │ 
-  │   • Co-engineered Market Sentiment Analysis tool with LSTM and NLP
-  │   • Developed A* pathfinding algorithm with Manhattan distance heuristic
-  │   • Reduced path length by 20% and improved convergence speed by 15%
-  │   • Collaborated with scrum coordinators on weekly progress report
-\n`;
+  return await workOutput();
+  //  return `
+  //┌──────────────────────────────────────────────────────────────┐
+  //│                      Work Experience                         │
+  //└──────────────────────────────────────────────────────────────┘
+  //  │
+  //
+  // <span class="text-light-yellow dark:text-dark-yellow">2025</span>
+  //
+  //  │
+  //  ├─ <svg xmlns="http://www.w3.org/2000/svg" viewBox="100 50 280 200" style="height: 1.3vh; display:inline-block;vertical-align: middle;" fill="white">
+  //  │   <path d="M130.299 222.384L278.52 130.269H355.413C357.785 130.269 359.902 132.159 359.902 134.755C359.902 136.871 358.971 137.83 357.785 138.535L284.959 182.124C280.215 184.974 278.577 190.645 278.577 194.877L278.492 222.356H371V62.6708C371 59.5956 368.628 57 365.098 57H276.854L129 148.692V222.356H130.299V222.384Z"></path>
+  //  │   </svg> <a href="https://www.autodesk.com" target="_blank">Autodesk</a> | Software Engineering Intern | <i>May - August</i>
+  //  │
+  //  │   • Incoming Autodesk EMS Team
+  //  │
+  //  │
+  //  ├─ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" style="height: 1.2em; display:inline-block;vertical-align: middle;" fill="white">
+  //  │        <path d="M117.81,67.43c7.38-4.15,17.54-8.77,20.77-23.54,3.23-14.77-6.46-29.08-26.77-29.08H31.5L9.81,137.59H84.58c22.62,0,42.92-9.69,47.54-34.62,4.15-19.39-7.38-32.31-14.31-35.54Zm-13.39,3.23c-12.78,14.56-48.46,60.46-48.46,60.46-.92,.92-1.85,.92-2.77,.46-.46-.46-.92-1.38-.46-2.31l14.31-47.54h-24c-1.52-.04-2.51-2.05-1.38-3.23L89.2,19.43c.92-.92,1.85-.92,2.77-.46,.46,.92,.92,1.85,.46,2.77l-13.85,45.69h24c3.47,0,3.04,1.87,1.85,3.23Z"/>
+  //  │        </svg> <a href="https://www.beta.team" target="_blank" style="text-decoration: underline">BETA Technologies</a> | Software Engineering Intern | <i>January - April</i>
+  //  │
+  //  │   • Incoming Structures Team
+  //  │
+  //
+  // <span class="text-light-yellow dark:text-dark-yellow">2024</span>
+  //
+  //  │
+  //  ├─ McGill AI Ethics Lab | <b class="text-dark-green">Lead Undergraduate Researcher</b> | <i>April - Present</i>
+  //  │
+  //  │   • Led a team of eight developing solutions for filter bubbles and disinformation
+  //  │   • Created Golang API library with C wrappers for Python integration
+  //  │   • Leveraged multi-thread optimization, improving performance by 70%
+  //  │   • Developed video content analyzer using TextRank algorithm
+  //  │
+  //
+  // <span class="text-light-yellow dark:text-dark-yellow">2022</span>
+  //
+  //  │
+  //  ├─ M2M Tech | Software Engineer Intern (September - January 2023)
+  //  │
+  //  │   • Co-engineered Market Sentiment Analysis tool with LSTM and NLP
+  //  │   • Developed A* pathfinding algorithm with Manhattan distance heuristic
+  //  │   • Reduced path length by 20% and improved convergence speed by 15%
+  //  │   • Collaborated with scrum coordinators on weekly progress report
+  //\n`;
 };

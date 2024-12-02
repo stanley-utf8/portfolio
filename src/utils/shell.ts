@@ -1,3 +1,4 @@
+import { get } from 'http';
 import React from 'react';
 import * as bin from './bin';
 import { getCurrentPath, getNodeAtPath, resolvePath } from './bin/filesystem';
@@ -13,7 +14,6 @@ export const shell = async (
   const cmd = args[0].toLowerCase();
 
   if (cmd.startsWith('./')) {
-    const path = getCurrentPath();
     const targetPath = resolvePath(cmd.slice(2));
     const node = getNodeAtPath(targetPath);
 

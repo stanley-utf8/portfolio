@@ -8,7 +8,6 @@ import { banner } from '../utils/bin';
 import { triggerAsyncId } from 'async_hooks';
 import BootSequence from '../components/boot';
 import FullScreenWaves from '../components/waves';
-import { handleClientScriptLoad } from 'next/script';
 
 interface IndexPageProps {
   inputRef: React.MutableRefObject<HTMLInputElement>;
@@ -45,7 +44,16 @@ const IndexPage: React.FC<IndexPageProps> = ({
 
   React.useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.scrollIntoView();
+      const isScrollNeeded =
+        containerRef.current.scrollHeight - containerRef.current.scrollTop >
+        containerRef.current.clientHeight;
+
+      if (isScrollNeeded) {
+        inputRef.current.scrollTo({
+          top: containerRef.current.scrollHeight,
+          behavior: 'smooth',
+        });
+      }
       inputRef.current.focus({ preventScroll: true });
     }
   }, [history]);

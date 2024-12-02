@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 const FullScreenWaves = ({ onComplete }) => {
   const [frame, setFrame] = useState('');
+
+  const [randomColor] = useState(() => {
+    const array = ['yellow', 'green', 'blue', 'red', 'purple'];
+    return array[Math.floor(Math.random() * array.length)];
+  });
   const CHARS = ' _abcöõö#$%123ABC';
   const WIDTH = 190; // Increased for full screen
   const HEIGHT = 50; // Increased for full screen
@@ -77,10 +82,13 @@ const FullScreenWaves = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 bg-light-background dark:bg-dark-background z-50 flex items-center justify-center">
-      <pre className="font-mono whitespace-pre text-dark-green text-xs overflow-hidden">
-        <div className="-translate-y-3">{frame}</div>
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-dark-gray">
+    <div className="crt-text fixed inset-0 bg-light-background dark:bg-dark-background z-50 flex items-center justify-center">
+      <pre
+        className={`whitespace-pre text-dark-${randomColor} 
+        text-xs overflow-hidden `}
+      >
+        <div className={` -translate-y-3`}>{frame}</div>
+        <div className=" absolute bottom-4 left-1/2 transform -translate-x-1/2 text-dark-gray">
           Press space to continue...
         </div>
       </pre>
