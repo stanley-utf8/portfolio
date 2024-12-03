@@ -3,48 +3,79 @@
 import * as bin from './index';
 import * as filesystem from './filesystem';
 import config from '../../../config.json';
-import symbol1 from '../../../public/work images/symbol-1.svg';
+//import symbol1 from '../../../public/work images/symbol-1.svg';
 import { workOutput, workExperience } from '../../components/work';
 
+const tag = (content: string) => {
+  const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?`~©®₿¥€£¢₹§¶∆×÷¿¡StanleyWang';
+
+
+return `<span 
+      class="cursor-pointer"
+    style="color: rgb(206,165,94); font-size: 1em; height:1.35em; line-height: 1.35em"
+      onmouseover="
+        const originalText = this.textContent;
+        this.glitchTimer = setInterval(() => {
+          this.textContent = originalText
+            .split('')
+            .map(() => '${glitchChars}'[Math.floor(Math.random() * ${glitchChars.length})])
+            .join('');
+        }, 50);
+      "
+      onmouseout="
+        clearInterval(this.glitchTimer);
+        const originalText = '${content}';
+        let currentIdx = 0;
+        const restoreInterval = setInterval(() => {
+          if (currentIdx >= originalText.length) {
+            clearInterval(restoreInterval);
+            return;
+          }
+          this.textContent = 
+            originalText.slice(0, currentIdx + 1) + 
+            originalText.slice(currentIdx + 1)
+              .split('')
+              .map(() => '${glitchChars}'[Math.floor(Math.random() * ${glitchChars.length})])
+              .join('');
+          currentIdx++;
+        }, 50);
+      "
+    >${content}</span>`;
+};
 // Help
 export const help = async (args: string[]): Promise<string> => {
   const commandMap = {
     // Navigation & Info
     about: 'display information about me',
     help: 'show this help message',
-    resume: 'open my resume',
     projects: 'show my most recent projects',
     work: 'show my field experience',
 
     // Contact & Social
-    email: 'send me an email',
     github: 'visit my github profile',
     linkedin: 'view my linkedin profile',
-
-    // Search
-    google: 'search google',
-    reddit: 'search reddit',
+    resume: 'open my resume',
 
     // Utils
-    date: 'display current date',
-    echo: 'print text to terminal',
-    whoami: 'display current user',
+    cd: 'change directory',
+    ls: 'lists content of current directory',
+    tree: 'display directory structure in a tree-like format',
+
   };
 
   const sections = {
     'Navigation & Info': [
       'about',
       'help',
-      'resume',
       'projects',
       'work',
       'school',
     ],
-    'Contact & Social': ['email', 'github', 'linkedin'],
-    Utils: ['date', 'echo', 'whoami'],
+    'Contact & Social': ['github', 'linkedin', 'resume'],
+    Utils: ['cd', 'ls', 'tree'],
   };
 
-  let helpText = 'Available commands:\n\n';
+  let helpText = '\nAvailable commands:\n\n';
 
   Object.entries(sections).forEach(([section, commands]) => {
     commands.forEach((cmd) => {
@@ -58,18 +89,13 @@ export const help = async (args: string[]): Promise<string> => {
   return `${helpText}
 [tab]: trigger completion
 [ctrl+l]/clear: clear terminal\n
-
-Type 'sumfetch' to display summary.`;
+`;
 };
 
 // About
 export const about = async (args: string[]): Promise<string> => {
   return `Hi, I am ${config.name}. 
-Welcome to my website!
-More about me:
-'sumfetch' - short summary.
-'resume' - my latest resume.
-'readme' - my github readme.`;
+`;
 };
 
 export const resume = (args: string[]): string => {
@@ -80,14 +106,6 @@ export const resume = (args: string[]): string => {
   return message;
 };
 
-// Contact
-export const email = (args: string[]): string => {
-  const message = `Opening mailto:${config.email}...`;
-  setTimeout(() => {
-    window.open(`mailto:${config.email}`);
-  }, 500);
-  return message;
-};
 
 export const github = (args: string[]): string => {
   const message = 'Opening github...';
@@ -145,16 +163,38 @@ export const date = async (args: string[]): Promise<string> => {
     .replace(/\//g, '.');
 };
 
+
+const openNeovimRepo = (args?: string[]): string => {
+  const message = 'nerd';
+  setTimeout(() => {
+    window.open(`https://github.com/stanley-utf8/...nvim`);
+  }, 500);
+  return message;
+};
+export const vim = openNeovimRepo;
+export const nvim = openNeovimRepo;
+export const vi = openNeovimRepo;
+
 // Banner
 export const banner = (args?: string[]): string => {
+  // 
+
+  // 
   return `
+${tag(config.name)} <a href="https://github.com/${config.social.github
+    }" target="_blank" style="text-decoration: none;font-size: 1.2em; "> </a><a href="https://linkedin.com/in/${config.social.linkedin
+    }" target="_blank" style="text-decoration: none;font-size: 1.2em; "> </a>
 
-\u1F3BC Stanley Wang
+<a href="${config.resume_url
+    }" target="_blank" style="text-decoration: none; "> Resume</a>
+<a href="mailto:${config.email
+    }" target="_blank" style="text-decoration: none; "> ${config.email}</a>
 
-
-Type 'help' to see the list of available commands.
-Type 'sumfetch' to display summary.
-Type 'repo' or click <u><a class="text-light-blue dark:text-dark-blue underline" href="${config.repo}" target="_blank">here</a></u> for the Github repository.\n
+Type <span class='text-dark-green'>'help'</span> to see the list of available commands.
+Type <span class='text-dark-green'>'work'</span> to see my relevant experience.
+Type <span class='text-dark-green'>'repo'</span> to see my relevant experience or click <u><a class="text-light-blue dark:text-dark-blue underline" href="${config.repo
+    }" target="_blank">here</a></u> to see this site's code.
+Type <span class='text-dark-green'>'banner'</span> to repeat this output.\n
 `;
 };
 

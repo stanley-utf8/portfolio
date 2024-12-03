@@ -1,8 +1,6 @@
 {
-  "readmeUrl": "https://raw.githubusercontent.com/cveinnt/cveinnt/master/README.md",
-  "title": "stanley wang",
+  "title": "Stanley Wang",
   "name": "Stanley Wang",
-  "ascii": "liveterm",
   "social": {
     "github": "stanley-utf8",
     "linkedin": "stanley-utf8"
@@ -10,12 +8,8 @@
   "email": "stanley.wang.cs@gmail.com",
   "ps1_hostname": "stanley-wang",
   "ps1_username": "dev",
-  "repo": "https://github.com/Cveinnt/LiveTerm",
-  "resume_url": "https://gray-marys-30.tiiny.site/",
-  "donate_urls": {
-    "paypal": "https://paypal.me/cveinnt",
-    "patreon": "https://patreon.com/cveinnt"
-  },
+  "repo": "https://github.com/stanley-utf8/portfolio",
+  "resume_url": "https://stanley-wang-resume.tiiny.site/",
   "colors": {
     "light": {
       "background": "#FBF1C9",

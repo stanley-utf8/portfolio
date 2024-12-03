@@ -1,4 +1,5 @@
 import React from 'react';
+import { resume } from '../utils/bin';
 
 // Utility function for styled span
 const span = (content: string, classes: string, styles?: string) =>
@@ -250,6 +251,7 @@ export const workOutput = async (): Promise<string> => {
       }
     });
   });
+  result += `\n hint: scroll up in case you missed something!\n`
 
   return result;
 };

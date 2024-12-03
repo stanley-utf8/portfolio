@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, startTransition } from 'react';
 
 const spinnerFrames = ['|', '/', '─', '\\', '|', '/', '─', '\\'];
-const chineseCharsArray = '永和徐会尚志宏伟财富宝康乐家园'.split('');
+const chineseCharsArray = '正在加載黃士樺的作品集'.split('');
 const fullText = "Loading Stanley's Portfolio...";
 const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?`~©®₿¥€£¢₹§¶∆×÷¿¡';
 
@@ -218,40 +218,42 @@ const BootSequence = ({ onComplete }: { onComplete: () => void }) => {
   // Final text animation effect
   useEffect(() => {
     if (phase === 'boot' && currentLineIndex >= bootSequence.length) {
-      const typingDelay = 60;
-      const translationDelay = 2000;
+      const initialDelay = 2120;
+      const typingDelay = 50;
+      const translationDelay = 1590;
       const glitchTimers: NodeJS.Timeout[] = [];
       const timeouts: NodeJS.Timeout[] = [];
 
-      for (let i = 0; i < fullText.length; i++) {
-        if (i < chineseCharsArray.length) {
-          const chineseTimeout = setTimeout(() => {
-            setCharStates((prev) => {
-              const newStates = [...prev];
-              newStates[i] = { char: chineseCharsArray[i], isGlitching: false };
-              return newStates;
-            });
-          }, i * typingDelay);
 
-          timeouts.push(chineseTimeout);
+      const startTyping = setTimeout(() => {
+        for (let i = 0; i < fullText.length; i++) {
+          if (i < chineseCharsArray.length) {
+            const chineseTimeout = setTimeout(() => {
+              setCharStates((prev) => {
+                const newStates = [...prev];
+                newStates[i] = { char: chineseCharsArray[i], isGlitching: false };
+                return newStates;
+              });
+            }, i * typingDelay);
+            timeouts.push(chineseTimeout);
 
-          const englishTimeout = setTimeout(() => {
-            const timer = startGlitchAnimation(i, fullText[i]);
-            glitchTimers.push(timer);
-          }, i * typingDelay + translationDelay);
-
-          timeouts.push(englishTimeout);
-        } else {
-          const extraDelay =
-            chineseCharsArray.length * typingDelay + translationDelay;
-          const englishTimeout = setTimeout(() => {
-            const timer = startGlitchAnimation(i, fullText[i]);
-            glitchTimers.push(timer);
-          }, extraDelay + (i - chineseCharsArray.length) * typingDelay);
-
-          timeouts.push(englishTimeout);
+            const englishTimeout = setTimeout(() => {
+              const timer = startGlitchAnimation(i, fullText[i]);
+              glitchTimers.push(timer);
+            }, i * typingDelay + translationDelay);
+            timeouts.push(englishTimeout);
+          } else {
+            const extraDelay = chineseCharsArray.length * typingDelay + translationDelay;
+            const englishTimeout = setTimeout(() => {
+              const timer = startGlitchAnimation(i, fullText[i]);
+              glitchTimers.push(timer);
+            }, extraDelay + (i - chineseCharsArray.length) * typingDelay);
+            timeouts.push(englishTimeout);
+          }
         }
-      }
+      }, initialDelay);
+
+      timeouts.push(startTyping)
 
       return () => {
         timeouts.forEach((timeout) => clearTimeout(timeout));
@@ -270,6 +272,7 @@ const BootSequence = ({ onComplete }: { onComplete: () => void }) => {
   // Cursor blink effect
   useEffect(() => {
     if (isTyping) {
+      setShowCursor(false); // Reset to visible when typing starts
       const cursorInterval = setInterval(() => {
         setShowCursor((prev) => !prev);
       }, 530);
@@ -288,7 +291,7 @@ const BootSequence = ({ onComplete }: { onComplete: () => void }) => {
     ) {
       const spinnerInterval = setInterval(() => {
         setFrame((f) => (f + 1) % spinnerFrames.length);
-      }, 200);
+      }, 150);
       return () => clearInterval(spinnerInterval);
     }
   }, [isTyping, phase, currentLineIndex]);
@@ -302,7 +305,7 @@ const BootSequence = ({ onComplete }: { onComplete: () => void }) => {
     ) {
       const completeTimeout = setTimeout(() => {
         onComplete();
-      }, 2000);
+      }, 2500);
       return () => clearTimeout(completeTimeout);
     }
   }, [isTyping, phase, currentLineIndex, onComplete]);

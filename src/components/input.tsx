@@ -45,7 +45,19 @@ export const Input = ({
       setLastCommandIndex(0);
       triggerEffect();
       await shell(command, setHistory, clearHistory, setCommand, setShowWaves);
-      containerRef.current.scrollTo(0, containerRef.current.scrollHeight);
+      setTimeout(() => {
+        if (containerRef.current) {
+          const scrollOptions: ScrollToOptions = {
+            top: containerRef.current.scrollHeight,
+            behavior: 'smooth',
+          };
+
+          // Use requestAnimationFrame to ensure the new content is rendered
+          requestAnimationFrame(() => {
+            containerRef.current?.scrollTo(scrollOptions);
+          });
+        }
+      }, 100);
     }
 
     if (event.key === 'ArrowUp') {
@@ -92,11 +104,10 @@ export const Input = ({
         ref={inputRef}
         id="prompt"
         type="text"
-        className={`bg-light-background dark:bg-dark-background focus:outline-none flex-grow crt-text ${
-          commandExists(command) || command === ''
+        className={`bg-light-background dark:bg-dark-background focus:outline-none flex-grow crt-text ${commandExists(command) || command === ''
             ? 'text-dark-green'
             : 'text-dark-red'
-        }`}
+          }`}
         value={command}
         onChange={onChange}
         autoFocus

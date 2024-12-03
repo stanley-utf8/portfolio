@@ -140,7 +140,7 @@ export const cd = async (args: string[]): Promise<string> => {
   // message output on exe
 
   if (targetNode.name === 'executables') {
-    const message = `There are some fun programs for you to try out! Run one with <span class='text-dark-green'>./[program].exe</span>`;
+    const message = `\nThere are some fun programs for you to try out! Run one with <span class='text-dark-green'>./[program].exe</span>`;
     const lsOutput = await ls([]);
     return message + '\n\n' + lsOutput;
   }

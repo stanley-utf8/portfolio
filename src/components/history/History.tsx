@@ -20,9 +20,8 @@ export const History: React.FC<{
               <div className="flex-grow">{entry.command}</div>
             </div>
             <p
-              className={`whitespace-pre-wrap mb-2 ${
-                entry.id === newestId && showEffect ? 'crt-text-effect' : ''
-              }`}
+              className={`whitespace-pre-wrap mb-2 ${entry.id === newestId && showEffect ? 'crt-text-effect' : ''
+                }`}
               style={{ lineHeight: 'normal' }}
               dangerouslySetInnerHTML={{ __html: entry.output }}
             />
