@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import config from '../../config.json';
 import { getCurrentPath } from '../utils/bin';
-import { generateRandomHostname } from '../utils/hostname';
+//import { generateRandomHostname } from '../utils/hostname';
 
 interface Props {
   path?: string;
@@ -13,12 +13,12 @@ export const Ps1: React.FC<Props> = ({ path }) => {
   const currentDir = currentPath.split('/').pop() || '~';
   const displayPath = currentDir === 'stanley' ? '~' : currentDir;
 
-  const [hostname, setHostname] = useState<string>(() => {
-    if (!hostnameCache.value) {
-      hostnameCache.value = generateRandomHostname(); // Generate only once
-    }
-    return hostnameCache.value;
-  });
+  //const [hostname, setHostname] = useState<string>(() => {
+  //  if (!hostnameCache.value) {
+  //    hostnameCache.value = generateRandomHostname(); // Generate only once
+  //  }
+  //  return hostnameCache.value;
+  //});
 
   return (
     <div>
@@ -27,7 +27,7 @@ export const Ps1: React.FC<Props> = ({ path }) => {
       </span>
       <span className="text-light-gray dark:text-dark-gray">@</span>
       <span className="text-light-green dark:text-dark-purple">
-        {hostname}:
+        {config.ps1_hostname}:
       </span>
       <span className="text-light-gray dark:text-dark-gray">
         {' '}

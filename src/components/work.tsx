@@ -239,7 +239,7 @@ export const workOutput = async (): Promise<string> => {
         job.links
           ? `
   │ 
-  │    More: ${job.links.join(' | ')}`
+  │    [ ${job.links.join(' | ')} ]`
           : ''
       }
   │ 
