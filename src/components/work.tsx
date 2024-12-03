@@ -219,8 +219,8 @@ export const workOutput = async (): Promise<string> => {
     entry.jobs.forEach((job) => {
       result += `  ├─ ${
         job.svg
-          ? `${job.svg}<b >${job.company}</b> | ${job.position} | <i class='text-dark-gray'>${job.duration}</i>`
-          : `<b >${job.company}</b> | ${job.position} | <i class='text-dark-gray'>${job.duration}</i>`
+          ? `${job.svg}${job.company} | ${job.position} | <i class='text-dark-gray'>${job.duration}</i>`
+          : `${job.company} | ${job.position} | <i class='text-dark-gray'>${job.duration}</i>`
       }${
         job.details
           ? `
