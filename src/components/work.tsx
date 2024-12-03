@@ -60,7 +60,7 @@ interface CaseStudy {
   };
 }
 
-const companyColor = 'text-dark-yellow';
+const companyColor = 'text-dark-purple';
 const positionColor = 'text-dark-foreground';
 
 // Work experience data
