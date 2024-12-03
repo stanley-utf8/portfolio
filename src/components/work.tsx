@@ -23,7 +23,7 @@ const tag = (content: string) => {
         this.textContent = [...originalText]
           .map(() => '${glitchChars}'[Math.floor(Math.random() * ${glitchChars.length})])
           .join('');
-      }, 35);
+      }, 50);
     "
     onmouseout="
       clearInterval(this.glitchTimer);
@@ -225,21 +225,24 @@ export const workOutput = async (): Promise<string> => {
         job.details
           ? `
   │
+  │
   │     • ${job.details.join('\n  │     • ')} `
           : ''
       }${
         job.tags
           ? `
   │ 
-  │ ${job.tags.map((t) => tag(t)).join('')}`
+  │ 
+  │   ${job.tags.map((t) => tag(t)).join('')}`
           : ''
       }${
         job.links
           ? `
   │ 
-  │  More: ${job.links.join(' | ')}`
+  │    More: ${job.links.join(' | ')}`
           : ''
       }
+  │ 
   │ 
 `;
       if (job.expanded && job.caseStudy) {
